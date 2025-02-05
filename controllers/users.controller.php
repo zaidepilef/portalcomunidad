@@ -51,6 +51,7 @@ class ControllerUsers
 								$_SESSION["status"] = $answer["status"];
 								$_SESSION["first_name"] = $profile["first_name"];
 								$_SESSION["last_name"] = $profile["last_name"];
+								$_SESSION["photo"] = $profile["photo"];
 								$_SESSION["roles_user"] = $rolesUser;
 
 								$lastLogin = UsersModel::logUser($answer["id"], "Usuario válido ingresa a sistema.");

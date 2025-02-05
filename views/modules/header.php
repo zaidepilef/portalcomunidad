@@ -58,9 +58,36 @@
 								echo '<img class="user-image" src="views/img/users/default/anonymous.png">';
 							}
 
+
+							/*
+
+							$item = "id";
+							$value = $_GET["idSale"];
+		
+							$sale = (new ControllerSales)->ctrShowSales($item, $value);
+		
+							$itemUser = "id";
+							$valueUser = $sale["idSeller"];
+		
+							$seller = ControllerUsers::ctrShowUsers($itemUser, $valueUser);
+		
+							$itemCustomers = "id";
+							$valueCustomers = $sale["idCustomer"];
+		
+							$customers = ControllerCustomers::ctrShowCustomers($itemCustomers, $valueCustomers);
+							$taxPercentage = round($sale["tax"] * 100 / $sale["netPrice"]);
+							$_SESSION["loggedIn"] = "ok";
+							$_SESSION["id"] = $answer["id"];
+							$_SESSION["username"] = $answer["username"];
+							$_SESSION["email"] = $answer["email"];
+							$_SESSION["status"] = $answer["status"];
+							$_SESSION["first_name"] = $profile["first_name"];
+							$_SESSION["last_name"] = $profile["last_name"];
+							*/
+
 						?>
 
-						<span class="hidden-xs"><?php echo $_SESSION["name"]; ?></span>
+						<span class="hidden-xs"><?php echo $_SESSION["username"] ?></span>
 
 					</a>
 
