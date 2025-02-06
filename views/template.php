@@ -1,9 +1,10 @@
 <?php
-  session_start();
+session_start();
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
 
   <meta charset="utf-8">
@@ -37,7 +38,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-   <!-- DataTables -->
+  <!-- DataTables -->
   <link rel="stylesheet" href="views/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <link rel="stylesheet" href="views/bower_components/datatables.net-bs/css/responsive.bootstrap.min.css">
 
@@ -67,7 +68,7 @@
   <!-- AdminLTE App -->
   <script src="views/dist/js/adminlte.min.js"></script>
 
-   <!-- DataTables -->
+  <!-- DataTables -->
   <script src="views/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
   <script src="views/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
   <script src="views/bower_components/datatables.net-bs/js/dataTables.responsive.min.js"></script>
@@ -103,87 +104,90 @@
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini login-page">
-<!--<body class="hold-transition skin-blue sidebar-collapse sidebar-mini login-page">-->
-<!-- Site wrapper -->
+  <!--<body class="hold-transition skin-blue sidebar-collapse sidebar-mini login-page">-->
+  <!-- Site wrapper -->
 
   <?php
 
-    if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == "ok"){
+  if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == "ok") {
 
-      echo '<div class="wrapper">';
+    echo '<div class="wrapper">';
 
-      /*=============================================
+    /*=============================================
       =            header          =
       =============================================*/
 
-      include "modules/header.php";
+    include "modules/header.php";
 
-      /*=============================================
+    /*=============================================
       =            sidebar          =
       =============================================*/
 
-      include "modules/sidebar.php";
+    include "modules/sidebar.php";
 
-      /*=============================================
+    /*=============================================
       =            Content          =
       =============================================*/
 
-      if(isset($_GET["route"])){
+    if (isset($_GET["route"])) {
 
-        if ($_GET["route"] == 'home' ||
-            $_GET["route"] == 'users' ||
-            $_GET["route"] == 'categories' ||
-            $_GET["route"] == 'products' ||
-            $_GET["route"] == 'products-col' ||
-            $_GET["route"] == 'customers' ||
-            $_GET["route"] == 'sales' ||
-            $_GET["route"] == 'create-sale' ||
-            $_GET["route"] == 'edit-sale' ||
-            $_GET["route"] == 'reports' ||
-            $_GET["route"] == 'logout'){
+      if (
+        $_GET["route"] == 'home' ||
+        $_GET["route"] == 'users' ||
+        $_GET["route"] == 'categories' ||
+        $_GET["route"] == 'products' ||
+        $_GET["route"] == 'products-col' ||
+        $_GET["route"] == 'customers' ||
+        $_GET["route"] == 'sales' ||
+        $_GET["route"] == 'create-sale' ||
+        $_GET["route"] == 'edit-sale' ||
+        $_GET["route"] == 'reports' ||
+        $_GET["route"] == 'logout'
+      ) {
 
-          include "modules/".$_GET["route"].".php";
+        include "modules/" . $_GET["route"] . ".php";
+      } else {
 
-        }else{
-
-           include "modules/404.php";
-
-        }
-
-      }else{
-
-        include "modules/home.php";
-
+        include "modules/404.php";
       }
+    } else {
 
-      /*=============================================
+      include "modules/home.php";
+    }
+
+    /*=============================================
       =            Footer          =
       =============================================*/
 
-      include "modules/footer.php";
+    include "modules/footer.php";
 
-      echo '</div>';
-
-    }else{
-       /*=============================================
+    echo '</div>';
+  } else {
+    /*=============================================
       =            login          =
       =============================================*/
-
+    if ($_GET["route"] == 'signup') {
+      include "modules/signup.php";
+    } else if ($_GET["route"] == 'postsignup') {
+      include "modules/postsignup.php";
+    } else {
       include "modules/login.php";
     }
+  }
 
   ?>
 
 
-<!-- ./wrapper -->
+  <!-- ./wrapper -->
 
-<script src="views/js/template.js"></script>
-<script src="views/js/users.js"></script>
-<script src="views/js/categories.js"></script>
-<script src="views/js/products.js"></script>
-<script src="views/js/customers.js"></script>
-<script src="views/js/sales.js"></script>
-<script src="views/js/reports.js"></script>
+  <script src="views/js/template.js"></script>
+  <script src="views/js/users.js"></script>
+  <script src="views/js/categories.js"></script>
+  <script src="views/js/products.js"></script>
+  <script src="views/js/customers.js"></script>
+  <script src="views/js/sales.js"></script>
+  <script src="views/js/reports.js"></script>
 
 </body>
+
 </html>

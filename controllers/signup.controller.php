@@ -1,99 +1,87 @@
 <?php
 
-class ControllerSignUp{
+class ControllerSignUp
+{
 
 	/*=============================================
 	USER SIGNUP
 	=============================================*/
 
-	static public function ctrUserSignUp(){
+	static public function ctrUserSignUp()
+	{
 
 		if (
-			isset( $_POST["signupUsername"]) && 
-			isset( $_POST["signupEmail"]) && 
-			isset( $_POST["signupPass"]) && 
-			isset( $_POST["signupRepass"])
+			isset($_POST["signupUsername"]) &&
+			isset($_POST["signupEmail"]) &&
+			isset($_POST["signupPass"]) &&
+			isset($_POST["signupRepass"])
 		) {
-			if(!preg_match('/^[a-zA-Z0-9]+$/', $_POST["signupUsername"])){
+
+			$_username = $_POST["signupUsername"];
+			$username = trim($_username);
+
+			$_email = $_POST["signupEmail"];
+			$email = trim($_email);
+
+			$_pass = $_POST["signupPass"];
+			$pass = trim($_pass);
+
+			$_repass = $_POST["signupRepass"];
+			$repass = trim($_repass);
+
+			if (!preg_match('/^[a-zA-Z0-9]+$/', $username)) {
 				echo '<br><div class="alert alert-danger">Nombre Usuario no valido</div>';
 				exit;
 			}
-			
-			if( !preg_match('/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/', $_POST["signupEmail"]) ){
+
+			if (!preg_match('/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/', $email)) {
 				echo '<br><div class="alert alert-danger">Email no valido</div>';
 				exit;
 			}
 
-			if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["signupUsername"]) && preg_match('/^[a-zA-Z0-9]+$/', $_POST["loginPass"]) ) {
 
-				$encryptpass = crypt($_POST["signupPass"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-
-				$table = 'users';
-
-				$item = 'user';
-				$value = $_POST["loginUser"];
-
-				$answer = UsersModel::MdlShowUsers($table, $item, $value);
-
-			// var_dump($answer);
-
-				if($answer["user"] == $_POST["loginUser"] && $answer["password"] == $encryptpass){
-
-					if($answer["status"] == 1){
-
-						$_SESSION["loggedIn"] = "ok";
-						$_SESSION["id"] = $answer["id"];
-						$_SESSION["name"] = $answer["name"];
-						$_SESSION["user"] = $answer["user"];
-						$_SESSION["photo"] = $answer["photo"];
-						$_SESSION["profile"] = $answer["profile"];
-
-						/*=============================================
-						Register date to know last_login
-						=============================================*/
-
-						date_default_timezone_set("America/Santiago");
-
-						$date = date('Y-m-d');
-						$hour = date('H:i:s');
-
-						$actualDate = $date.' '.$hour;
-
-						$item1 = "lastLogin";
-						$value1 = $actualDate;
-
-						$item2 = "id";
-						$value2 = $answer["id"];
-
-						$lastLogin = UsersModel::mdlUpdateUser($table, $item1, $value1, $item2, $value2);
-
-						if($lastLogin == "ok"){
-
-							echo '<script>
-
-								window.location = "home";
-
-							</script>';
-
-						}
-
-					}else{
-
-						echo '<br><div class="alert alert-danger">User is deactivated</div>';
-
-					}
-
-				}else{
-
-					echo '<br><div class="alert alert-danger">User or password incorrect</div>';
-
-				}
-
+			if ($pass !== $repass) {
+				echo '<br><div class="alert alert-danger">Error en la password</div>';
+				exit;
 			}
 
+			$answer_username = UsersModel::MdlShowUsers('users', 'username', $username);
+			$answer_email = UsersModel::MdlShowUsers('users', 'email', $email);
+
+			//var_dump("answer_username : ", $answer_username);
+			if ($answer_username) {
+				echo '<br><div class="alert alert-danger">Usuario ya existe</div>';
+				exit;
+			}
+
+			//var_dump("answer_email : ", $answer_email);
+			if ($answer_email) {
+				echo '<br><div class="alert alert-danger">Correo ya se encuentra registrado</div>';
+				exit;
+			}
+			$encryptpass = crypt($pass, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+			$data = array(
+				"username" => $username,
+				"email" => $email,
+				"password" => $encryptpass,
+				"status" => 0
+			);
+			//var_dump("data : ", $data);
+
+			$newuser = UsersModel::createUser($data);
+
+			if (isset($newuser['error'])) {
+				echo '<br><div class="alert alert-danger">' . $newuser['error'] . '</div>';
+				exit;
+			} else {
+
+				$_SESSION["username"] = $newuser["username"];
+				$_SESSION["email"] = $newuser["email"];
+				$_SESSION["status"] = $newuser["status"];
+				
+				echo '<script>window.location = "postsignup";</script>';
+				exit;
+			}
 		}
-
 	}
-
-
 }

@@ -55,9 +55,10 @@ class ModelSales{
 		$stmt->bindParam(":paymentMethod", $data["paymentMethod"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
-
-			return "ok";
-
+			// Obtener la conexión y el último ID insertado
+			$lastId = (new Connection)->connect()->lastInsertId();
+			return $lastId;
+			
 		}else{
 
 			return "error";

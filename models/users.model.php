@@ -6,6 +6,33 @@ class UsersModel
 {
 
 	/*=============================================
+	CREATE NEW USER FROM SIGNUP
+	=============================================*/
+	static public function createUser($data)
+	{
+		$pdo = (new Connection)->connect(); // Guardamos la conexión en una variable
+		$stmt = $pdo->prepare("INSERT INTO users(username, email, password, status) VALUES (:username, :email, :password, :status)");
+		$stmt->bindParam(":username", $data["username"], PDO::PARAM_STR);
+		$stmt->bindParam(":email", $data["email"], PDO::PARAM_STR);
+		$stmt->bindParam(":password", $data["password"], PDO::PARAM_STR);
+		$stmt->bindParam(":status", $data["status"], PDO::PARAM_STR);
+		if ($stmt->execute()) {
+			// Obtener la conexión y el último ID insertado
+			$lastId = $pdo->lastInsertId(); // Usamos la misma conexión para obtener el ID
+			// Recuperar el objeto completo con los datos insertados
+			$query = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+			$query->bindParam(":id", $lastId, PDO::PARAM_INT);
+			$query->execute();
+			$result = $query->fetch(PDO::FETCH_ASSOC); // Obtener el objeto como array asociativo
+			return $result;
+		} else {
+			return ["error" => "No se pudo insertar el registro"];
+		}
+		$stmt->close();
+		$stmt = null;
+	}
+
+	/*=============================================
 	SHOW USER 
 	=============================================*/
 
