@@ -22,11 +22,6 @@ require_once "models/categories.model.php";
 //helper
 require_once "helpers/mail.helper.php";
 
-// librerias
-require_once 'extensions/phpmailer/src/PHPMailer.php';
-require_once 'extensions/phpmailer/src/SMTP.php';
-require_once 'extensions/phpmailer/src/Exception.php';
-
 
 
 
