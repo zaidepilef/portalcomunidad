@@ -6,11 +6,7 @@ Thumbs.db
 *.swo
 
 # 🚀 Ignorar archivos de configuración y credenciales
-.env
-.env.local
-.env.*.local
-config.php
-database.php
+
 
 # 🚀 Ignorar archivos de logs y errores
 *.log
