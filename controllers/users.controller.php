@@ -14,7 +14,9 @@ class ControllerUsers
 
 			if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["loginUser"]) && preg_match('/^[a-zA-Z0-9]+$/', $_POST["loginPass"])) {
 
-				$encryptpass = crypt($_POST["loginPass"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+				
+				$salt = "automovil"; // Usa un salt único para cada usuario
+				$encryptpass = hash('sha256', $salt . $_POST["loginPass"]);
 
 				//var_dump($encryptpass);
 
@@ -25,24 +27,23 @@ class ControllerUsers
 				$value = $_POST["loginUser"];
 
 				$answer = UsersModel::MdlShowUsers($table, $item, $value);
-	
+
 
 				if (!$answer) {
 
 					echo '<br><div class="alert alert-danger">Usuario no existe</div>';
-					
 				} else {
 
 					if ($answer["username"] == $_POST["loginUser"]) {
 
 						$user_id = $answer["id"];
 						//print_r($profile);
-						
+
 						if ($answer["password"] == $encryptpass) {
-							
+
 							$profile = ProfilesModel::MdlShowUserProfile($user_id);
 							$rolesUser = RolesModel::MdlShowUserRoles($user_id);
-							
+
 							if ($answer["status"] == 1) {
 								$_SESSION["loggedIn"] = "ok";
 								$_SESSION["id"] = $answer["id"];
@@ -148,7 +149,8 @@ class ControllerUsers
 
 				$table = 'users';
 
-				$encryptpass = crypt($_POST["newPasswd"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+				$salt = "automovil"; // Usa un salt único para cada usuario
+				$encryptpass = hash('sha256', $salt . $_POST["newPasswd"]);
 
 				$data = array(
 					'name' => $_POST["newName"],

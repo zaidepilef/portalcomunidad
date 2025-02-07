@@ -59,7 +59,10 @@ class ControllerSignUp
 				echo '<br><div class="alert alert-danger">Correo ya se encuentra registrado</div>';
 				exit;
 			}
-			$encryptpass = crypt($pass, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+			
+			$salt = "automovil"; // Usa un salt único para cada usuario
+			$encryptpass = hash('sha256', $salt . $pass);
+
 			$data = array(
 				"username" => $username,
 				"email" => $email,
@@ -78,7 +81,8 @@ class ControllerSignUp
 				$_SESSION["username"] = $newuser["username"];
 				$_SESSION["email"] = $newuser["email"];
 				$_SESSION["status"] = $newuser["status"];
-				
+				$mailer = HelperMailer::firtMailer($newuser);
+
 				echo '<script>window.location = "postsignup";</script>';
 				exit;
 			}

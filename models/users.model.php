@@ -182,4 +182,5 @@ class UsersModel
 		$stmt->close();
 		$stmt = null;
 	}
+	
 }
