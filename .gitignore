@@ -1,0 +1,47 @@
+# 🚀 Ignorar archivos de sistema y configuraciones locales
+.DS_Store
+Thumbs.db
+*.bak
+*.swp
+*.swo
+
+# 🚀 Ignorar archivos de configuración y credenciales
+
+
+# 🚀 Ignorar archivos de logs y errores
+*.log
+logs/
+debug.log
+error_log
+vendor/
+
+# 🚀 Ignorar caché y archivos temporales
+cache/
+tmp/
+temp/
+storage/
+sessions/
+
+# 🚀 Ignorar dependencias de Composer
+/vendor/
+composer.lock
+
+# 🚀 Ignorar archivos de IDEs
+.vscode/
+.idea/
+nbproject/
+*.iml
+
+# 🚀 Ignorar archivos de despliegue (Ejemplo: cPanel)
+public_html/*.zip
+public_html/deploy.php
+
+# 🚀 Ignorar respaldos de base de datos
+*.sql
+*.sqlite
+database/*.sql
+
+# 🚀 Ignorar imágenes o archivos pesados temporales
+uploads/
+media/
+storage/app/public/
