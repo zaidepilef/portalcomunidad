@@ -166,9 +166,10 @@ session_start();
     /*=============================================
       =            login          =
       =============================================*/
-    if ($_GET["route"] == 'signup') {
+
+    if (isset($_GET["route"]) && $_GET["route"] == 'signup') {
       include "modules/signup.php";
-    } else if ($_GET["route"] == 'postsignup') {
+    } else if (isset($_GET["route"]) && $_GET["route"] == 'postsignup') {
       include "modules/postsignup.php";
     } else {
       include "modules/login.php";

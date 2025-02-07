@@ -30,25 +30,7 @@ if (isset($_SESSION["email"]) && $_SESSION["status"] != 0) {
     <p class="login-box-msg"> <b>Regístrese para ser Ingresado al sistema</b></p>
     <form method="post">
 
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Nombre" name="signupUsername" required>
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Apellido" name="signupEmail" required>
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password" name="signupPass" required>
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Confirme Password" name="signupRepass" required>
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
+    
       <div class="row">
 
         <div class="col-xs-4">
@@ -61,8 +43,8 @@ if (isset($_SESSION["email"]) && $_SESSION["status"] != 0) {
 
       <?php
 
-      $login = new ControllerSignUp();
-      $login->ctrUserSignUp();
+      //$login = new ControllerSignUp();
+      //$login->ctrUserSignUp();
 
       ?>
 
