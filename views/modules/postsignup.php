@@ -5,7 +5,7 @@ $_SESSION["email"] = $newuser["email"];
 $_SESSION["status"] = $newuser["status"];
 
 if (isset($_SESSION["email"]) && $_SESSION["status"] != 0) {
-
+  
 } else {
 
 

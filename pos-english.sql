@@ -22,8 +22,15 @@ SET time_zone = "+00:00";
 -- user: ougtcl_prd
 -- pass: #KakRFrOfBr%
 
+-- email
+-- user : send@ougt.cl
+-- pass : Xh2ZYuvvQVTc
 
-
+-- ftp
+-- user : dev@ougt.cl	
+-- pass : 5TWaW9K1Oo1Q
+--
+--
 -- --------------------------------------------------------
 
 --
