@@ -11,11 +11,12 @@ class UsersModel
 	static public function createUser($data)
 	{
 		$pdo = (new Connection)->connect(); // Guardamos la conexión en una variable
-		$stmt = $pdo->prepare("INSERT INTO users(username, email, password, status) VALUES (:username, :email, :password, :status)");
+		$stmt = $pdo->prepare("INSERT INTO users(username, email, password, status, random) VALUES (:username, :email, :password, :status, :random)");
 		$stmt->bindParam(":username", $data["username"], PDO::PARAM_STR);
 		$stmt->bindParam(":email", $data["email"], PDO::PARAM_STR);
 		$stmt->bindParam(":password", $data["password"], PDO::PARAM_STR);
 		$stmt->bindParam(":status", $data["status"], PDO::PARAM_STR);
+		$stmt->bindParam(":random", $data["random"], PDO::PARAM_STR);
 		if ($stmt->execute()) {
 			// Obtener la conexión y el último ID insertado
 			$lastId = $pdo->lastInsertId(); // Usamos la misma conexión para obtener el ID
@@ -40,14 +41,10 @@ class UsersModel
 	{
 
 		if ($item != null) {
+			
 			$stmt = (new Connection)->connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item");
-
-			//$stmt = Connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item");
-
 			$stmt->bindParam(":" . $item, $value, PDO::PARAM_STR);
-
 			$stmt->execute();
-
 			return $stmt->fetch();
 		} else {
 			$stmt = (new Connection)->connect()->prepare("SELECT * FROM $tableUsers");
@@ -119,6 +116,22 @@ class UsersModel
 
 		$stmt = null;
 	}
+	/*=============================================
+	EDIT USER 
+	=============================================*/
+
+	static public function validateCode($data)
+	{
+		$stmt = (new Connection)->connect()->prepare("UPDATE users set status = 1 WHERE id = :id");
+		$stmt->bindParam(":id", $data["id"], PDO::PARAM_STR);
+		if ($stmt->execute()) {
+			return 'ok';
+		} else {
+			return 'error';
+		}
+		$stmt->close();
+		$stmt = null;
+	}
 
 
 	/*=============================================
@@ -182,5 +195,4 @@ class UsersModel
 		$stmt->close();
 		$stmt = null;
 	}
-	
 }

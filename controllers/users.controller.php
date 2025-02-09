@@ -13,37 +13,23 @@ class ControllerUsers
 		if (isset($_POST["loginUser"])) {
 
 			if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["loginUser"]) && preg_match('/^[a-zA-Z0-9]+$/', $_POST["loginPass"])) {
-
 				
 				$salt = "automovil"; // Usa un salt único para cada usuario
 				$encryptpass = hash('sha256', $salt . $_POST["loginPass"]);
-
-				//var_dump($encryptpass);
-
 				$table = 'users';
-
 				$item = 'username';
-
 				$value = $_POST["loginUser"];
-
 				$answer = UsersModel::MdlShowUsers($table, $item, $value);
 
-
 				if (!$answer) {
-
 					echo '<br><div class="alert alert-danger">Usuario no existe</div>';
 				} else {
-
 					if ($answer["username"] == $_POST["loginUser"]) {
-
 						$user_id = $answer["id"];
-						//print_r($profile);
-
+						
 						if ($answer["password"] == $encryptpass) {
-
 							$profile = ProfilesModel::MdlShowUserProfile($user_id);
 							$rolesUser = RolesModel::MdlShowUserRoles($user_id);
-
 							if ($answer["status"] == 1) {
 								$_SESSION["loggedIn"] = "ok";
 								$_SESSION["id"] = $answer["id"];
@@ -54,14 +40,13 @@ class ControllerUsers
 								$_SESSION["last_name"] = $profile["last_name"];
 								$_SESSION["photo"] = $profile["photo"];
 								$_SESSION["roles_user"] = $rolesUser;
-
 								$lastLogin = UsersModel::logUser($answer["id"], "Usuario válido ingresa a sistema.");
 								if ($lastLogin == "ok") {
 									echo '<script>window.location = "home";</script>';
 								}
 							} else {
 								$lastLogin = UsersModel::logUser($answer["id"], "Usuario no activo intenta ingresar");
-								echo '<br><div class="alert alert-danger">Usuario no activo</div>';
+								echo '<br><div class="alert alert-danger">Usuario no se encuentra en periodo de validacion</div>';
 							}
 						} else {
 							$lastLogin = UsersModel::logUser($answer["id"], "Usuario o password incorrectos");

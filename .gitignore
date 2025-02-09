@@ -45,3 +45,4 @@ database/*.sql
 uploads/
 media/
 storage/app/public/
+.env
