@@ -43,8 +43,10 @@
                   
                     echo '<td>
                       <div class="btn-group">
-                        <button class="btn btn-warning btnEditUser" idUser="'.$value["user_id"].'" data-toggle="modal" data-target="#editUser"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-danger btnDeleteUser" userId="'.$value["user_id"].'" username="'.$value["username"].'" "><i class="fa fa-times"></i></button>
+                        <form method="post" action="users-edit">
+                          <input hidden name="user_id" value="'.$value["user_id"].'">
+                          <button type="submit" class="btn btn-warning btnEditUser" idUser="'.$value["user_id"].'"><i class="fa fa-pencil"></i></button>
+                        </form>
                       </div>
                     </td>
                   </tr>';
@@ -151,19 +153,7 @@
 
             </div>
 
-            <!-- Uploading image
-            <div class="form-group">
-
-              <div class="panel">Upload image</div>
-
-              <input class="newPics" type="file" name="newPhoto">
-
-              <p class="help-block">Maximum size 2Mb</p>
-
-              <img class="thumbnail preview" src="views/img/users/default/anonymous.png" width="100px">
-
-            </div>-->
-
+       
           </div>
 
         </div>
@@ -337,9 +327,4 @@
 
 </div>
 
-<?php
 
-  $deleteUser = new ControllerUsers();
-  $deleteUser -> ctrDeleteUser();
-
-?>

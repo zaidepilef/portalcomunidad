@@ -42,9 +42,13 @@ class ControllerUsers
 								$_SESSION["roles_user"] = $rolesUser;
 
 
-								$roleassign = ControllerRoles::ctrCreateUserRole($user_id,2);
+							
 								$lastLogin = UsersModel::logUser($answer["id"], "Usuario válido ingresa a sistema.");
 								if ($lastLogin == "ok") {
+
+									
+
+
 									echo '<script>window.location = "home";</script>';
 								}
 							} else {
@@ -391,48 +395,6 @@ class ControllerUsers
 		}
 	}
 
-	/*=============================================
-	DELETE USER
-	=============================================*/
-
-	static public function ctrDeleteUser()
-	{
-
-		if (isset($_GET["userId"])) {
-
-			$table = "users";
-			$data = $_GET["userId"];
-
-			if ($_GET["userPhoto"] != "") {
-
-				unlink($_GET["userPhoto"]);
-				rmdir('views/img/users/' . $_GET["username"]);
-			}
-
-			$answer = UsersModel::mdlDeleteUser($table, $data);
-
-			if ($answer == "ok") {
-
-				echo '<script>
-
-				swal({
-					  type: "success",
-					  title: "The user has been succesfully deleted",
-					  showConfirmButton: true,
-					  confirmButtonText: "Close"
-
-					  }).then(function(result){
-
-						if (result.value) {
-
-						window.location = "users";
-
-						}
-					})
-
-				</script>';
-			}
-		}
-	}
+	
 	
 }
