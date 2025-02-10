@@ -50,23 +50,18 @@
             foreach ($categories as $key => $value) {
 
               echo '<tr>
-                          <td>' . ($key + 1) . '</td>
-                          <td class="text-uppercase">' . $value['name'] . '</td>
-                          <td class="text-uppercase">' . $value['description'] . '</td>
-                          <td class="text-uppercase">' . $value['prorateo_type'] . '</td>
-                          <td>
+                      <td>' . ($key + 1) . '</td>
+                      <td class="text-uppercase">' . $value['name'] . '</td>
+                      <td>' . $value['description'] . '</td>
+                      <td>' . $value['prorateo_type'] . '</td>
+                      <td>
+                        <div class="btn-group">
+                          <button class="btn btn-warning btnEditCategory" idCategory="' . $value["id"] . '" data-toggle="modal" data-target="#editCategories"><i class="fa fa-pencil"></i></button>
 
-                            <div class="btn-group">
-
-                              <button class="btn btn-warning btnEditCategory" idCategory="' . $value["id"] . '" data-toggle="modal" data-target="#editCategories"><i class="fa fa-pencil"></i></button>
-
-                              <button class="btn btn-danger btnDeleteCategory" idCategory="' . $value["id"] . '"><i class="fa fa-times"></i></button>
-
-                            </div>
-
-                          </td>
-
-                        </tr>';
+                          <button class="btn btn-danger btnDeleteCategory" idCategory="' . $value["id"] . '"><i class="fa fa-times"></i></button>
+                        </div>
+                      </td>
+                    </tr>';
             }
 
             ?>
@@ -98,7 +93,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <form role="form" method="POST">
-        
+
         <div class="modal-header" style="background: #3c8dbc; color: #fff">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Agregar Categoría</h4>
@@ -126,9 +121,9 @@
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user-circle"></i></span>
                 <select class="form-control input-lg" name="newCategoryProrateo">
-                  <option value="">Seleccionar Tipo</option>
-                  <option value="Equitativo">Equitativo</option>
-                  <option value="Asignado">Asignado</option>
+                  <option value="">(Seleccione)</option>
+                  <option value="Equitativo">EQUITATIVO</option>
+                  <option value="Asignado">ASIGNADO</option>
                 </select>
               </div>
 
@@ -194,11 +189,10 @@ $createCategory->ctrCreateCategory();
             <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                <select class="form-control input-lg" name="editProrateoType">
-
-                  <option value="" id="editProrateoType"></option>
-                  <option value="EQUITATIVO">EQUITATIVO</option>
-                  <option value="ASIGNADO">ASIGNADO</option>
+                <select id="editProrateoType" class="form-control input-lg" name="editProrateoType">
+                  <option value="">(Seleccione)</option>
+                  <option value="Equitativo">EQUITATIVO</option>
+                  <option value="Asignado">ASIGNADO</option>
                 </select>
               </div>
             </div>

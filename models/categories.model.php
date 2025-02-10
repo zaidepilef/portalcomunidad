@@ -12,23 +12,37 @@ class CategoriesModel
 
 	static public function mdlAddCategory($table, $data)
 	{
-		$stmt = (new Connection)->connect()->prepare("INSERT INTO $table(name,description,prorateo_type) VALUES (:name,:description,:prorateo_type)");
+		$pdo = (new Connection)->connect(); // Guardamos la conexión en una variable
+
+		$stmt = $pdo->prepare("INSERT INTO $table(name,description,prorateo_type) VALUES (:name,:description,:prorateo_type)");
 		$stmt->bindParam(":name", $data['name'], PDO::PARAM_STR);
 		$stmt->bindParam(":description", $data['description'], PDO::PARAM_STR);
 		$stmt->bindParam(":prorateo_type", $data['prorateo_type'], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
-			return 'ok';
+			// Obtener la conexión y el último ID insertado
+			$lastId = $pdo->lastInsertId(); // Usamos la misma conexión para obtener el ID
+			// Recuperar el objeto completo con los datos insertados
+			$query = $pdo->prepare("SELECT * FROM $table WHERE id = :id");
+			$query->bindParam(":id", $lastId, PDO::PARAM_INT);
+			$query->execute();
+			$result = $query->fetch(PDO::FETCH_ASSOC); // Obtener el objeto como array asociativo
+			return $result;
 		} else {
-			return 'error';
+			return ["error" => "No se pudo insertar el registro"];
 		}
 		$stmt->close();
 		$stmt = null;
+
+		
+	
 	}
 
-	/*=============================================
+	/*
+	=============================================
 	SHOW CATEGORY 
-	=============================================*/
+	=============================================
+	*/
 
 	static public function mdlShowCategories($table, $item, $value)
 	{
@@ -67,9 +81,11 @@ class CategoriesModel
 		$stmt = null;
 	}
 
-	/*=============================================
+	/*
+	=============================================
 	DELETE CATEGORY
-	=============================================*/
+	=============================================
+	*/
 
 	static public function mdlDeleteCategory($table, $data)
 	{

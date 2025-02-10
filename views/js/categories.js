@@ -2,32 +2,34 @@
 EDIT CATEGORY
 =============================================*/
 
-$(".tables").on("click", ".btnEditCategory", function(){
+$(".tables").on("click", ".btnEditCategory", function () {
 
 	var idCategory = $(this).attr("idCategory");
-
 	var datum = new FormData();
-	datum.append("idCategory", idCategory);
+
+	datum.append("id", idCategory);
+	console.log('datum : ', datum);
 
 	$.ajax({
 		url: "ajax/categories.ajax.php",
 		method: "POST",
-      	data: datum,
-      	cache: false,
-     	contentType: false,
-     	processData: false,
-     	dataType:"json",
-     	success: function(answer){
+		data: datum,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (answer) {
 
-     		// console.log("answer", answer);
-     		$("#idCategory").val(answer["id"]);
-     		$("#editName").val(answer["name"]);
-     		$("#editDescription").val(answer["description"]);
- 			$("#editProrateoType").html(answer["editProrateoType"]);
- 			$("#editProrateoType").val(answer["prorateo_type"]);
+			console.log("answer", answer);
+			$("#idCategory").val(answer["id"]);
+			$("#editName").val(answer["name"]);
+			$("#editDescription").val(answer["description"]);
+
+			//$("#editProrateoType").html(answer["editProrateoType"]);
+			$("#editProrateoType").val(answer["prorateo_type"]);
 
 
-     	}
+		}
 
 	})
 
@@ -36,12 +38,12 @@ $(".tables").on("click", ".btnEditCategory", function(){
 /*=============================================
 DELETE CATEGORY
 =============================================*/
-$(".tables").on("click", ".btnDeleteCategory", function(){
+$(".tables").on("click", ".btnDeleteCategory", function () {
 
-	 var idCategory = $(this).attr("idCategory");
+	var idCategory = $(this).attr("idCategory");
 
-	 swal({
-	 	title: '¿Está seguro que desea eliminar la categoría?',
+	swal({
+		title: '¿Está seguro que desea eliminar la categoría?',
 		text: "¡si Ud. no está seguro, puede cancelar",
 		type: 'warning',
 		showCancelButton: true,
@@ -49,14 +51,14 @@ $(".tables").on("click", ".btnDeleteCategory", function(){
 		cancelButtonColor: '#d33',
 		cancelButtonText: 'Cancelar',
 		confirmButtonText: 'Si, eliminar categoría!'
-	 }).then(function(result){
+	}).then(function (result) {
 
-	 	if(result.value){
+		if (result.value) {
 
-	 		window.location = "index.php?route=categories&idCategory="+idCategory;
+			window.location = "index.php?route=categories&idCategory=" + idCategory;
 
-	 	}
+		}
 
-	 })
+	})
 
 })

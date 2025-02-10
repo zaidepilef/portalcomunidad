@@ -12,23 +12,19 @@ class AjaxCategories{
 	public $idCategory;
 
 	public function ajaxEditCategory(){
-
 		$item = "id";
 		$valor = $this->idCategory;
-
 		$answer = ControllerCategories::ctrShowCategories($item, $valor);
-
 		echo json_encode($answer);
-
 	}
 }
 
 /*=============================================
 EDITAR CATEGORÍA
 =============================================*/
-if(isset($_POST["idCategory"])){
+if(isset($_POST["id"])){
 
 	$category = new AjaxCategories();
-	$category -> idCategory = $_POST["idCategory"];
+	$category -> idCategory = $_POST["id"];
 	$category -> ajaxEditCategory();
 }

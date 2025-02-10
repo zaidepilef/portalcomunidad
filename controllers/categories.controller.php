@@ -29,30 +29,30 @@ class ControllerCategories
 					'description' => $description,
 					'prorateo_type' => $prorateo_type
 				);
-				$answer = CategoriesModel::mdlAddCategory('categories', $data);
-				var_dump($answer);
-				exit;
-				die;
-				if ($answer == 'ok') {
+				$newCategory = CategoriesModel::mdlAddCategory('categories', $data);
+				//var_dump($newCategory);
+
+				if (isset($newCategory['error'])) {
+					echo '<br><div class="alert alert-danger">' . $newCategory['error'] . '</div>';
+					exit;
+				} else {
 
 					echo '<script>
-
-						swal({
+					swal({
 							type: "success",
 							title: "Categoría ha sido grabada con éxito",
 							showConfirmButton: true,
 							confirmButtonText: "Cerrar"
-
-							}).then(function(result){
-								if (result.value) {
-
-									window.location = "categories";
-
-								}
-							});
-
+						}).then(function(result){
+							if (result.value) {
+								window.location = "categories";
+							}
+						});
 					</script>';
+	
+					
 				}
+
 
 			} else {
 
