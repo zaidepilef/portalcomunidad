@@ -3,9 +3,11 @@
 class ControllerSignUp
 {
 
-	/*=============================================
+	/*
+	=============================================
 	USER SIGNUP
-	=============================================*/
+	=============================================
+	*/
 
 	static public function ctrUserSignUp()
 	{
@@ -68,7 +70,7 @@ class ControllerSignUp
 				"email" => $email,
 				"password" => $encryptpass,
 				"random" => $random,
-				"status" => 0
+				"status_id" => 5
 			);
 			//var_dump("data : ", $data);
 
@@ -129,6 +131,14 @@ class ControllerSignUp
 				if ($answer_user["random"] === $code) {
 					UsersModel::validateCode($answer_user);
 					UsersModel::logUser($answer_user["id"], "Validacion de registro");
+
+					$_SESSION["loggedIn"] = "ok";
+					$_SESSION["id"] = $answer_user["id"];
+					$_SESSION["username"] = $answer_user["username"];
+					$_SESSION["email"] = $answer_user["email"];
+					$_SESSION["status"] = $answer_user["status"];
+					$_SESSION["photo"] = "";
+					echo '<script>window.location = "home";</script>';
 				} else {
 					echo '<br><div class="alert alert-danger">Codigo invalido</div>';
 				}

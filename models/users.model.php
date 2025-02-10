@@ -145,7 +145,7 @@ class UsersModel
 
 	static public function validateCode($data)
 	{
-		$stmt = (new Connection)->connect()->prepare("UPDATE users set status = 1 WHERE id = :id");
+		$stmt = (new Connection)->connect()->prepare("UPDATE users set status_id = 1 WHERE id = :id");
 		$stmt->bindParam(":id", $data["id"], PDO::PARAM_STR);
 		if ($stmt->execute()) {
 			return 'ok';

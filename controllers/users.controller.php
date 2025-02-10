@@ -3,9 +3,11 @@
 class ControllerUsers
 {
 
-	/*=============================================
-	USER LOGIN
-	=============================================*/
+	/*
+	=============================================
+	 - USER LOGIN
+	=============================================
+	*/
 
 	static public function ctrUserLogin()
 	{
@@ -36,21 +38,16 @@ class ControllerUsers
 								$_SESSION["username"] = $answer["username"];
 								$_SESSION["email"] = $answer["email"];
 								$_SESSION["status"] = $answer["status"];
-								$_SESSION["first_name"] = $profile["first_name"];
-								$_SESSION["last_name"] = $profile["last_name"];
-								$_SESSION["photo"] = $profile["photo"];
+								$_SESSION["photo"] = "";
 								$_SESSION["roles_user"] = $rolesUser;
 
-
-							
 								$lastLogin = UsersModel::logUser($answer["id"], "Usuario válido ingresa a sistema.");
+
 								if ($lastLogin == "ok") {
-
-									
-
-
 									echo '<script>window.location = "home";</script>';
+									exit();
 								}
+
 							} else {
 								$lastLogin = UsersModel::logUser($answer["id"], "Usuario no activo intenta ingresar");
 								echo '<br><div class="alert alert-danger">Usuario no se encuentra en periodo de validacion</div>';
@@ -68,10 +65,11 @@ class ControllerUsers
 	}
 
 
-	/*=============================================
+	/*
+	=============================================
 	CREATE USER
-	=============================================*/
-
+	=============================================
+	*/
 	static public function ctrCreateUser()
 	{
 
@@ -202,27 +200,27 @@ class ControllerUsers
 	}
 
 
-	/*=============================================
+	/*
+	=============================================
 	Mostrar usurios
-	=============================================*/
-
+	=============================================
+	*/
 	static public function ctrUsuarios()
 	{
 		$answer = UsersModel::MdlMostarUsuarios();
 		return $answer;
 	}
 
-	/*=============================================
-	SHOW USER
-	=============================================*/
 
+	/*
+	=============================================
+	SHOW USER
+	=============================================
+	*/
 	static public function ctrShowUsers($item, $value)
 	{
-
 		$table = "users";
-
 		$answer = UsersModel::MdlShowUsers($table, $item, $value);
-
 		return $answer;
 	}
 
