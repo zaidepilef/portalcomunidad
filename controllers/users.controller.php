@@ -40,6 +40,9 @@ class ControllerUsers
 								$_SESSION["last_name"] = $profile["last_name"];
 								$_SESSION["photo"] = $profile["photo"];
 								$_SESSION["roles_user"] = $rolesUser;
+
+
+								$roleassign = ControllerRoles::ctrCreateUserRole($user_id,2);
 								$lastLogin = UsersModel::logUser($answer["id"], "Usuario válido ingresa a sistema.");
 								if ($lastLogin == "ok") {
 									echo '<script>window.location = "home";</script>';
@@ -192,6 +195,17 @@ class ControllerUsers
 				</script>';
 			}
 		}
+	}
+
+
+	/*=============================================
+	Mostrar usurios
+	=============================================*/
+
+	static public function ctrUsuarios()
+	{
+		$answer = UsersModel::MdlMostarUsuarios();
+		return $answer;
 	}
 
 	/*=============================================
@@ -420,4 +434,5 @@ class ControllerUsers
 			}
 		}
 	}
+	
 }

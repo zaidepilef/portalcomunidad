@@ -41,25 +41,47 @@ class UsersModel
 	{
 
 		if ($item != null) {
-			
+
 			$stmt = (new Connection)->connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item");
 			$stmt->bindParam(":" . $item, $value, PDO::PARAM_STR);
 			$stmt->execute();
 			return $stmt->fetch();
 		} else {
 			$stmt = (new Connection)->connect()->prepare("SELECT * FROM $tableUsers");
-
 			$stmt->execute();
-
 			return $stmt->fetchAll();
 		}
-
 		$stmt->close();
-
 		$stmt = null;
 	}
 
+	/*=============================================
+		MOSTAR USUARIOS 
+	=============================================*/
 
+	static public function MdlMostarUsuarios()
+	{
+
+		$sql = "SELECT 
+			u.id AS user_id,
+			u.username,
+			u.email,
+			GROUP_CONCAT(r.name SEPARATOR ', ') AS roles,
+			s.name AS status
+			FROM users u
+			LEFT JOIN user_roles ur ON u.id = ur.user_id
+			LEFT JOIN roles r ON ur.role_id = r.id
+			JOIN status_user s ON u.status_id = s.id
+			GROUP BY u.id, u.username, u.email, s.name
+			ORDER BY u.id";
+
+		$stmt = (new Connection)->connect()->prepare($sql);
+		$stmt->execute();
+		return $stmt->fetchAll();
+
+		$stmt->close();
+		$stmt = null;
+	}
 	/*=============================================
 	ADD USER 
 	=============================================*/
@@ -116,8 +138,9 @@ class UsersModel
 
 		$stmt = null;
 	}
+
 	/*=============================================
-	EDIT USER 
+	VALIDATE CODE
 	=============================================*/
 
 	static public function validateCode($data)
@@ -156,7 +179,7 @@ class UsersModel
 	}
 
 	/*=============================================
-	UPDATE USER 
+	LOG USER 
 	=============================================*/
 
 	static public function logUser($user_id, $action)
