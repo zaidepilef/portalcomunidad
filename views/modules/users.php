@@ -1,127 +1,63 @@
 
 <div class="content-wrapper">
-
   <section class="content-header">
-
     <h1>
-
       Administracion de Usuarios
-
     </h1>
-
     <ol class="breadcrumb">
-
       <li><a href="home"><i class="fa fa-dashboard"></i> Inicio</a></li>
-
       <li class="active">Administrar Usuarios</li>
-
     </ol>
-
   </section>
 
   <section class="content">
-
     <div class="box">
-
       <div class="box-header with-border">
-
-        <button class="btn btn-primary" data-toggle="modal" data-target="#addUser">
-
-          Agregar Usuario
-
-        </button>
-
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addUser">Agregar Usuario</button>
       </div>
 
       <div class="box-body">
-
         <table class="table table-bordered table-striped dt-responsive tables" width="100%">
-
           <thead>
-
            <tr>
-
              <th style="width:10px">#</th>
              <th>Nombre</th>
              <th>Nombre Usuario</th>
-             <th>Foto</th>
              <th>Perfil</th>
              <th>Estado</th>
-             <th>Último login</th>
              <th>Acciones</th>
-
            </tr>
-
           </thead>
-
           <tbody>
-
             <?php
-
-              $item = null;
-              $value = null;
-
-              $users = ControllerUsers::ctrShowUsers($item, $value);
-
+            
+              $users = ControllerUsers::ctrUsuarios();
               // var_dump($users);
-
               foreach ($users as $key => $value) {
-
                 echo '<tr>
                     <td>'.($key+1).'</td>
-                    <td class="text-uppercase">'.$value["name"].'</td>
-                    <td>'.$value["user"].'</td>';
-
-                    if ($value["photo"] != ""){
-
-                      echo '<td><img src="'.$value["photo"].'" class="img-thumbnail" width="40px"></td>';
-
-                    }else{
-
-                      echo '<td><img src="views/img/users/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
-
-                    }
-
-                    echo '<td class="text-uppercase">'.$value["profile"].'</td>';
-
-                    if($value["status"] != 0){
-
-                      echo '<td><button class="btn btn-success btnActivate btn-xs" userId="'.$value["id"].'" userStatus="0">Activated</button></td>';
-
-                    }else{
-
-                      echo '<td><button class="btn btn-danger btnActivate btn-xs" userId="'.$value["id"].'" userStatus="1">Deactivated</button></td>';
-                    }
-
-                    echo '<td>'.$value["lastLogin"].'</td>
-
-                    <td>
-
+                    <td class="text-uppercase">'.$value["username"].'</td>
+                    <td>'.$value["email"].'</td>
+                    <td>'.$value["roles"].'</td>
+                    <td>'.$value["status"].'</td>';
+                  
+                    echo '<td>
                       <div class="btn-group">
-
-                        <button class="btn btn-warning btnEditUser" idUser="'.$value["id"].'" data-toggle="modal" data-target="#editUser"><i class="fa fa-pencil"></i></button>
-
-                        <button class="btn btn-danger btnDeleteUser" userId="'.$value["id"].'" username="'.$value["user"].'" userPhoto="'.$value["photo"].'"><i class="fa fa-times"></i></button>
-
+                        <form method="post" action="users-edit">
+                          <input hidden name="user_id" value="'.$value["user_id"].'">
+                          <button type="submit" class="btn btn-warning btnEditUser" idUser="'.$value["user_id"].'"><i class="fa fa-pencil"></i></button>
+                        </form>
                       </div>
-
                     </td>
-
                   </tr>';
               }
 
             ?>
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
-
   </section>
-
 </div>
 
 <!--=====================================
@@ -217,19 +153,7 @@
 
             </div>
 
-            <!-- Uploading image
-            <div class="form-group">
-
-              <div class="panel">Upload image</div>
-
-              <input class="newPics" type="file" name="newPhoto">
-
-              <p class="help-block">Maximum size 2Mb</p>
-
-              <img class="thumbnail preview" src="views/img/users/default/anonymous.png" width="100px">
-
-            </div>-->
-
+       
           </div>
 
         </div>
@@ -403,9 +327,4 @@
 
 </div>
 
-<?php
 
-  $deleteUser = new ControllerUsers();
-  $deleteUser -> ctrDeleteUser();
-
-?>

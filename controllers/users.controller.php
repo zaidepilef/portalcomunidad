@@ -13,36 +13,23 @@ class ControllerUsers
 		if (isset($_POST["loginUser"])) {
 
 			if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["loginUser"]) && preg_match('/^[a-zA-Z0-9]+$/', $_POST["loginPass"])) {
-
-				$encryptpass = crypt($_POST["loginPass"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-
-				//var_dump($encryptpass);
-
+				
+				$salt = "automovil"; // Usa un salt único para cada usuario
+				$encryptpass = hash('sha256', $salt . $_POST["loginPass"]);
 				$table = 'users';
-
 				$item = 'username';
-
 				$value = $_POST["loginUser"];
-
 				$answer = UsersModel::MdlShowUsers($table, $item, $value);
-	
 
 				if (!$answer) {
-
 					echo '<br><div class="alert alert-danger">Usuario no existe</div>';
-					
 				} else {
-
 					if ($answer["username"] == $_POST["loginUser"]) {
-
 						$user_id = $answer["id"];
-						//print_r($profile);
 						
 						if ($answer["password"] == $encryptpass) {
-							
 							$profile = ProfilesModel::MdlShowUserProfile($user_id);
 							$rolesUser = RolesModel::MdlShowUserRoles($user_id);
-							
 							if ($answer["status"] == 1) {
 								$_SESSION["loggedIn"] = "ok";
 								$_SESSION["id"] = $answer["id"];
@@ -54,13 +41,19 @@ class ControllerUsers
 								$_SESSION["photo"] = $profile["photo"];
 								$_SESSION["roles_user"] = $rolesUser;
 
+
+							
 								$lastLogin = UsersModel::logUser($answer["id"], "Usuario válido ingresa a sistema.");
 								if ($lastLogin == "ok") {
+
+									
+
+
 									echo '<script>window.location = "home";</script>';
 								}
 							} else {
 								$lastLogin = UsersModel::logUser($answer["id"], "Usuario no activo intenta ingresar");
-								echo '<br><div class="alert alert-danger">Usuario no activo</div>';
+								echo '<br><div class="alert alert-danger">Usuario no se encuentra en periodo de validacion</div>';
 							}
 						} else {
 							$lastLogin = UsersModel::logUser($answer["id"], "Usuario o password incorrectos");
@@ -148,7 +141,8 @@ class ControllerUsers
 
 				$table = 'users';
 
-				$encryptpass = crypt($_POST["newPasswd"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+				$salt = "automovil"; // Usa un salt único para cada usuario
+				$encryptpass = hash('sha256', $salt . $_POST["newPasswd"]);
 
 				$data = array(
 					'name' => $_POST["newName"],
@@ -205,6 +199,17 @@ class ControllerUsers
 				</script>';
 			}
 		}
+	}
+
+
+	/*=============================================
+	Mostrar usurios
+	=============================================*/
+
+	static public function ctrUsuarios()
+	{
+		$answer = UsersModel::MdlMostarUsuarios();
+		return $answer;
 	}
 
 	/*=============================================
@@ -390,47 +395,6 @@ class ControllerUsers
 		}
 	}
 
-	/*=============================================
-	DELETE USER
-	=============================================*/
-
-	static public function ctrDeleteUser()
-	{
-
-		if (isset($_GET["userId"])) {
-
-			$table = "users";
-			$data = $_GET["userId"];
-
-			if ($_GET["userPhoto"] != "") {
-
-				unlink($_GET["userPhoto"]);
-				rmdir('views/img/users/' . $_GET["username"]);
-			}
-
-			$answer = UsersModel::mdlDeleteUser($table, $data);
-
-			if ($answer == "ok") {
-
-				echo '<script>
-
-				swal({
-					  type: "success",
-					  title: "The user has been succesfully deleted",
-					  showConfirmButton: true,
-					  confirmButtonText: "Close"
-
-					  }).then(function(result){
-
-						if (result.value) {
-
-						window.location = "users";
-
-						}
-					})
-
-				</script>';
-			}
-		}
-	}
+	
+	
 }

@@ -134,14 +134,8 @@ session_start();
       if (
         $_GET["route"] == 'home' ||
         $_GET["route"] == 'users' ||
+        $_GET["route"] == 'users-edit' ||
         $_GET["route"] == 'categories' ||
-        $_GET["route"] == 'products' ||
-        $_GET["route"] == 'products-col' ||
-        $_GET["route"] == 'customers' ||
-        $_GET["route"] == 'sales' ||
-        $_GET["route"] == 'create-sale' ||
-        $_GET["route"] == 'edit-sale' ||
-        $_GET["route"] == 'reports' ||
         $_GET["route"] == 'logout'
       ) {
 

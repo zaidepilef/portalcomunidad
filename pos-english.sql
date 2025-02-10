@@ -30,7 +30,9 @@ SET time_zone = "+00:00";
 -- user : dev@ougt.cl	
 -- pass : 5TWaW9K1Oo1Q
 --
---
+-- PuTTY
+-- user : ougtcl@ougt.cl 
+-- pass : o4RP219S[h[hUm
 -- --------------------------------------------------------
 
 --

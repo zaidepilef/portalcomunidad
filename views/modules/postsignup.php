@@ -1,16 +1,5 @@
 <?php
 
-
-$_SESSION["email"] = $newuser["email"];
-$_SESSION["status"] = $newuser["status"];
-
-if (isset($_SESSION["email"]) && $_SESSION["status"] != 0) {
-  
-} else {
-
-
-}
-
 ?>
 <div id="back"></div>
 
@@ -19,7 +8,7 @@ if (isset($_SESSION["email"]) && $_SESSION["status"] != 0) {
 
   <div class="login-logo">
 
-    <img class="img-responsive" src="views/img/template/Logo-Agencia.png" style="padding: 5px 0px 0 0px">
+    
 
   </div>
 
@@ -27,15 +16,24 @@ if (isset($_SESSION["email"]) && $_SESSION["status"] != 0) {
     <h3>
       <center>Plataforma de Gestión Comunitaria </center>
     </h3>
-    <p class="login-box-msg"> <b>Regístrese para ser Ingresado al sistema</b></p>
+    <p class="login-box-msg"> <b>Enviamos un código de validación a tu correo.</b></p>
     <form method="post">
 
-    
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Correo" name="validateEmail" required>
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Codigo Validacion (AAA123)" name="validateCode" required>
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+
       <div class="row">
 
         <div class="col-xs-4">
 
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Validar Codigo</button>
 
         </div>
 
@@ -43,8 +41,8 @@ if (isset($_SESSION["email"]) && $_SESSION["status"] != 0) {
 
       <?php
 
-      //$login = new ControllerSignUp();
-      //$login->ctrUserSignUp();
+      $validate = new ControllerSignUp();
+      $validate->validateCodeUser();
 
       ?>
 
