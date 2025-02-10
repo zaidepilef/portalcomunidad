@@ -27,12 +27,12 @@ class RolesModel
 
 	/*
 	=============================================
-	SHOW PROFILE 
+	 - SHOW ROLES USER 
 	=============================================
 	*/
 	static public function MdlShowUserRoles($user_id)
 	{
-		$sql = "SELECT r.name, r.id FROM user_roles ur JOIN roles r ON ur.role_id = r.id WHERE ur.user_id = " . $user_id;
+		$sql = "SELECT r.name, r.id as role_id FROM user_roles ur JOIN roles r ON ur.role_id = r.id WHERE ur.user_id = " . $user_id;
 		$stmt = (new Connection)->connect()->prepare($sql);
 		if ($stmt->execute()) {
 			return $stmt->fetchAll();
@@ -46,10 +46,10 @@ class RolesModel
 
 	/*
 	=============================================
-	CREAR ROL de USUARIO 
+	 - CREAR ROLES USER
 	=============================================
 	*/
-	static public function ctrCreateUserRole($user_id, $role_id)
+	static public function mdlCreateUserRole($user_id, $role_id)
 	{
 		// INSERT INTO user_roles (user_id, role_id) VALUES (1, 1), -- Usuario 1 es Administrador
 		$sql = "INSERT INTO user_roles (user_id, role_id) VALUES (:user_id, :role_id)";
@@ -63,5 +63,27 @@ class RolesModel
 		}
 		$stmt->close();
 		$stmt = null;
+	}
+
+	/*
+	=============================================
+	 - ELIMINAR ROLES USER
+	=============================================
+	*/
+	static public function mdlDeleteRoleUser($user_id, $role_id)
+	{
+		try {
+			$stmt = (new Connection)->connect()->prepare("DELETE FROM user_roles WHERE user_id = :user_id AND role_id = :role_id");
+			$stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+			$stmt->bindParam(":role_id", $role_id, PDO::PARAM_INT);
+	
+			if ($stmt->execute()) {
+				return ["status" => "success", "message" => "Rol eliminado correctamente"];
+			} else {
+				return ["error" => "No se pudo eliminar el rol"];
+			}
+		} catch (PDOException $e) {
+			return ["error" => "Error en SQL: " . $e->getMessage()];
+		}
 	}
 }

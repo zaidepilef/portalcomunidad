@@ -80,7 +80,7 @@ class ControllerSignUp
 				echo '<br><div class="alert alert-danger">' . $newuser['error'] . '</div>';
 				exit;
 			} else {
-				$roleassign = RolesModel::ctrCreateUserRole($newuser["id"],2);
+				$roleassign = RolesModel::mdlCreateUserRole($newuser["id"],2);
 				$_SESSION["username"] = $newuser["username"];
 				$_SESSION["email"] = $newuser["email"];
 				$_SESSION["status"] = $newuser["status"];

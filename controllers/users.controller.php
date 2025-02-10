@@ -32,7 +32,7 @@ class ControllerUsers
 						if ($answer["password"] == $encryptpass) {
 							$profile = ProfilesModel::MdlShowUserProfile($user_id);
 							$rolesUser = RolesModel::MdlShowUserRoles($user_id);
-							if ($answer["status"] == 1) {
+							if ($answer["status_id"] != 7) {
 								$_SESSION["loggedIn"] = "ok";
 								$_SESSION["id"] = $answer["id"];
 								$_SESSION["username"] = $answer["username"];

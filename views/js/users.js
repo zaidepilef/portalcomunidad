@@ -2,15 +2,15 @@
 UPLOADING USER PICTURE
 =============================================*/
 
-$(".newPics").change(function(){
+$(".newPics").change(function () {
 
 	var newImage = this.files[0];
 
 	/*===============================================
 	=            validating image format            =
 	===============================================*/
-	
-	if (newImage["type"] != "image/jpeg" && newImage["type"] != "image/png"){
+
+	if (newImage["type"] != "image/jpeg" && newImage["type"] != "image/png") {
 
 		$(".newPics").val("");
 
@@ -22,7 +22,7 @@ $(".newPics").change(function(){
 			confirmButtonText: "Close"
 		});
 
-	}else if(newImage["size"] > 2000000){
+	} else if (newImage["size"] > 2000000) {
 
 		$(".newPics").val("");
 
@@ -34,13 +34,13 @@ $(".newPics").change(function(){
 			confirmButtonText: "Close"
 		});
 
-	}else{
+	} else {
 
 		var imgData = new FileReader;
 		imgData.readAsDataURL(newImage);
 
-		$(imgData).on("load", function(event){
-			
+		$(imgData).on("load", function (event) {
+
 			var routeImg = event.target.result;
 
 			$(".preview").attr("src", routeImg);
@@ -48,119 +48,119 @@ $(".newPics").change(function(){
 		});
 
 	}
-		
+
 	/*=====  End of validating image format  ======*/
-	
+
 })
 
 
 /*=============================================
 EDITING USER PICTURE
 =============================================*/
-$(document).on("click", ".btnEditUser", function(){
+$(document).on("click", ".btnEditUser", function () {
 
- 	var idUser = $(this).attr("idUser");
+	var idUser = $(this).attr("idUser");
 
- 	var data = new FormData();
- 	data.append("idUser", idUser);
+	var data = new FormData();
+	data.append("idUser", idUser);
 
- 	$.ajax({
+	$.ajax({
 
- 		url: "ajax/users.ajax.php",
- 		method: "POST",
- 		data: data,
- 		cache: false,
- 		contentType: false,
- 		processData: false,
- 		dataType: "json",
- 		success: function(answer){
- 			
- 			// console.log("answer", answer);
+		url: "ajax/users.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (answer) {
 
- 			$("#EditName").val(answer["name"]);
+			// console.log("answer", answer);
 
- 			$("#EditUser").val(answer["user"]);
+			$("#EditName").val(answer["name"]);
 
- 			$("#EditProfile").html(answer["profile"]);
+			$("#EditUser").val(answer["user"]);
 
- 			$("#EditProfile").val(answer["profile"]);
+			$("#EditProfile").html(answer["profile"]);
 
- 			$("#currentPasswd").val(answer["password"]);
+			$("#EditProfile").val(answer["profile"]);
 
- 			$("#currentPicture").val(answer["photo"]);
- 			
- 			if(answer["photo"] != ''){
+			$("#currentPasswd").val(answer["password"]);
 
- 				$('.preview').attr('src', answer["photo"]);
+			$("#currentPicture").val(answer["photo"]);
 
- 			}
+			if (answer["photo"] != '') {
 
- 		}
+				$('.preview').attr('src', answer["photo"]);
 
- 	});
+			}
 
- });
+		}
+
+	});
+
+});
 
 
 /*=============================================
 ACTIVATE USER
 =============================================*/
-$(document).on("click", ".btnActivate", function(){
+$(document).on("click", ".btnActivate", function () {
 
 	var userId = $(this).attr("userId");
 	var userStatus = $(this).attr("userStatus");
 
 	var datum = new FormData();
- 	datum.append("activateId", userId);
-  	datum.append("activateUser", userStatus);
+	datum.append("activateId", userId);
+	datum.append("activateUser", userStatus);
 
-  	$.ajax({
+	$.ajax({
 
-	  url:"ajax/users.ajax.php",
-	  method: "POST",
-	  data: datum,
-	  cache: false,
-      contentType: false,
-      processData: false,
-      success: function(answer){
-      	
-      	// console.log("answer", answer);
+		url: "ajax/users.ajax.php",
+		method: "POST",
+		data: datum,
+		cache: false,
+		contentType: false,
+		processData: false,
+		success: function (answer) {
 
-      	if(window.matchMedia("(max-width:767px)").matches){
-		
-			swal({
-				title: "The user status has been updated",
-				type: "success",
-				confirmButtonText: "Close"	
-			}).then(function(result) {
+			// console.log("answer", answer);
 
-				if (result.value) {
-					window.location = "users";
-				}
+			if (window.matchMedia("(max-width:767px)").matches) {
 
-			})
+				swal({
+					title: "The user status has been updated",
+					type: "success",
+					confirmButtonText: "Close"
+				}).then(function (result) {
+
+					if (result.value) {
+						window.location = "users";
+					}
+
+				})
+
+			}
 
 		}
-		
-      }
 
-  	})
+	})
 
-  	if(userStatus == 0){
+	if (userStatus == 0) {
 
-  		$(this).removeClass('btn-success');
-  		$(this).addClass('btn-danger');
-  		$(this).html('Deactivated');
-  		$(this).attr('userStatus',1);
+		$(this).removeClass('btn-success');
+		$(this).addClass('btn-danger');
+		$(this).html('Deactivated');
+		$(this).attr('userStatus', 1);
 
-  	}else{
+	} else {
 
-  		$(this).addClass('btn-success');
-  		$(this).removeClass('btn-danger');
-  		$(this).html('Activated');
-  		$(this).attr('userStatus',0);
+		$(this).addClass('btn-success');
+		$(this).removeClass('btn-danger');
+		$(this).html('Activated');
+		$(this).attr('userStatus', 0);
 
-  	}
+	}
 
 });
 
@@ -169,38 +169,37 @@ $(document).on("click", ".btnActivate", function(){
 VALIDATE IF USER ALREADY EXISTS
 =============================================*/
 
-$("#newUser").change(function(){
+$("#newUser").change(function () {
 
 	$(".alert").remove();
 
 	var user = $(this).val();
-
 	var data = new FormData();
- 	data.append("validateUser", user);
+	data.append("validateUser", user);
 
-  	$.ajax({
+	$.ajax({
 
-	  url:"ajax/users.ajax.php",
-	  method: "POST",
-	  data: data,
-	  cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function(answer){ 
+		url: "ajax/users.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (answer) {
 
-      	// console.log("answer", answer);
+			// console.log("answer", answer);
 
-      	if(answer){
+			if (answer) {
 
-      		$("#newUser").parent().after('<div class="alert alert-warning">This user is already taken</div>');
-      		
-      		$("#newUser").val('');
-      	}
+				$("#newUser").parent().after('<div class="alert alert-warning">This user is already taken</div>');
 
-      }
+				$("#newUser").val('');
+			}
 
-    });
+		}
+
+	});
 
 });
 
@@ -208,7 +207,7 @@ $("#newUser").change(function(){
 DELETE USER
 =============================================*/
 
-$(document).on("click", ".btnDeleteUser", function(){
+$(document).on("click", ".btnDeleteUser", function () {
 
 	var userId = $(this).attr("userId");
 	var userPhoto = $(this).attr("userPhoto");
@@ -220,20 +219,21 @@ $(document).on("click", ".btnDeleteUser", function(){
 		type: 'warning',
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  cancelButtonText: 'Cancel',
-		  confirmButtonText: 'Yes, delete user!'
-		}).then(function(result){
+		cancelButtonColor: '#d33',
+		cancelButtonText: 'Cancel',
+		confirmButtonText: 'Yes, delete user!'
+	}).then(function (result) {
 
-		if(result.value){
+		if (result.value) {
 
-		  window.location = "index.php?route=users&userId="+userId+"&username="+username+"&userPhoto="+userPhoto;
+			window.location = "index.php?route=users&userId=" + userId + "&username=" + username + "&userPhoto=" + userPhoto;
 
 		}
 
 	})
 
 });
+
 
 
 

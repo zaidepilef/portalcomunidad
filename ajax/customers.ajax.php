@@ -8,19 +8,13 @@ class AjaxCustomers{
 	/*=============================================
 	EDIT CUSTOMER
 	=============================================*/	
-
 	public $idCustomer;
 
 	public function ajaxEditCustomer(){
-
 		$item = "id";
 		$value = $this->idCustomer;
-
 		$answer = ControllerCustomers::ctrShowCustomers($item, $value);
-
 		echo json_encode($answer);
-
-
 	}
 
 }

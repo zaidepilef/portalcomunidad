@@ -1,36 +1,39 @@
 <?php
 
-$user_id = $_POST["user_id"];
 
 
 if (!isset($_POST["user_id"]) || empty($_POST["user_id"])) {
   echo '<script>
-    window.location = "home";
+  window.location = "home";
   </script>';
   die();
 }
-$user_id = trim($_POST["user_id"]);
+$_user_id = $_POST["user_id"];
+$user_id = trim($_user_id);
 // Limpiar el input
 $clean_user_id = htmlspecialchars(strip_tags($user_id), ENT_QUOTES, 'UTF-8');
-
-echo "✅ ID válido y limpio: " . $clean_user_id;
-
 $user_info = ControllerUsers::ctrShowUsers("id", $clean_user_id);
 $profile_info = ProfilesModel::MdlShowUserProfile($clean_user_id);
 $user_role = RolesModel::MdlShowUserRoles($clean_user_id);
 
+$last_name = $profile_info["first_name"];
+$last_name = $profile_info["last_name"];
+$run = $profile_info["run"];
+$phone_number = $profile_info["phone_number"];
+$address = $profile_info["address"];
+
 ?>
+
 <div class="content-wrapper">
 
   <section class="content-header">
-    <h1>
-      Editar Usuario y perfil usuario
-    </h1>
+    <h1>Editar Usuario y perfil usuario</h1>
 
     <ol class="breadcrumb">
       <li><a href="home"><i class="fa fa-dashboard"></i> Home</a></li>
       <li class="active">Edit Sale</li>
     </ol>
+
     <div class="form-group">
       <div class="input-group">
         <span class="input-group-addon"><i class="fa fa-users"></i></span>
@@ -46,9 +49,7 @@ $user_role = RolesModel::MdlShowUserRoles($clean_user_id);
           <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalAddCustomer" data-dismiss="modal">Asignar Perfil</button>
         </span>
       </div>
-
     </div>
-
 
 
   </section>
@@ -62,352 +63,156 @@ $user_role = RolesModel::MdlShowUserRoles($clean_user_id);
        - THE FORM
       =============================================
       -->
-      <div class="col-lg-5 col-xs-12">
+      <div class="col-lg-8 col-xs-12">
         <div class="box box-success">
-          <div class="box-header with-border"></div>
-
           <form role="form" method="post" class="saleForm">
             <div class="box-body">
               <div class="box">
                 <div class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" class="form-control" name="newSeller" id="newSeller" value="<?php echo $profile_info["first_name"]; ?>">
+                    <input type="text" class="form-control" name="first_name" id="first_name" value="<?php echo $first_name; ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                    <input type="text" class="form-control" id="newSale" name="editSale" value="<?php echo $profile_info["last_name"]; ?>">
+                    <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $last_name;?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" class="form-control" name="newSeller" id="newSeller" value="<?php echo $profile_info["run"]; ?>">
+                    <input type="text" class="form-control" name="run" id="run" value="<?php echo $run;?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" class="form-control" name="newSeller" id="newSeller" value="<?php echo $profile_info["phone_number"]; ?>">
+                    <input type="text" class="form-control" name="phone_number" id="phone_number" value="<?php echo $phone_number; ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" class="form-control" name="newSeller" id="newSeller" value="<?php echo $profile_info["address"]; ?>">
+                    <input type="text" class="form-control" name="address" id="address" value="<?php echo $address; ?>">
                   </div>
                 </div>
-
-
-
               </div>
-
             </div>
-
             <div class="box-footer">
               <button type="submit" class="btn btn-primary pull-right">Save changes</button>
             </div>
+
           </form>
-
         </div>
-
       </div>
 
-    </div>
+      <div class="col-lg-4 col-xs-12">
+        <div class="box box-success">
 
-     <!--begin::Row-->
-     <div class="row">
-              <div class="col-md-6">
-                <div class="card mb-4">
-                  <div class="card-header"><h3 class="card-title">Bordered Table</h3></div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
-                          <th style="width: 40px">Label</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="align-middle">
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div
-                                class="progress-bar progress-bar-danger"
-                                style="width: 55%"
-                              ></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-danger">55%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>2.</td>
-                          <td>Clean database</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-warning">70%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>3.</td>
-                          <td>Cron job running</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-primary">30%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>4.</td>
-                          <td>Fix and squish bugs</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-success">90%</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer clearfix">
-                    <ul class="pagination pagination-sm m-0 float-end">
-                      <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <!-- /.card -->
-                <div class="card mb-4">
-                  <div class="card-header">
-                    <h3 class="card-title">Condensed Full Width Table</h3>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body p-0">
-                    <table class="table table-sm">
-                      <thead>
-                        <tr>
-                          <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
-                          <th style="width: 40px">Label</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="align-middle">
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div
-                                class="progress-bar progress-bar-danger"
-                                style="width: 55%"
-                              ></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-danger">55%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>2.</td>
-                          <td>Clean database</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-warning">70%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>3.</td>
-                          <td>Cron job running</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-primary">30%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>4.</td>
-                          <td>Fix and squish bugs</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-success">90%</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-              </div>
-              <!-- /.col -->
-              <div class="col-md-6">
-                <div class="card mb-4">
-                  <div class="card-header">
-                    <h3 class="card-title">Simple Full Width Table</h3>
-                    <div class="card-tools">
-                      <ul class="pagination pagination-sm float-end">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body p-0">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
-                          <th style="width: 40px">Label</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="align-middle">
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div
-                                class="progress-bar progress-bar-danger"
-                                style="width: 55%"
-                              ></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-danger">55%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>2.</td>
-                          <td>Clean database</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-warning">70%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>3.</td>
-                          <td>Cron job running</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-primary">30%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>4.</td>
-                          <td>Fix and squish bugs</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-success">90%</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-                <div class="card mb-4">
-                  <div class="card-header">
-                    <h3 class="card-title">Striped Full Width Table</h3>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body p-0">
-                    <table class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
-                          <th style="width: 40px">Label</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="align-middle">
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div
-                                class="progress-bar progress-bar-danger"
-                                style="width: 55%"
-                              ></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-danger">55%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>2.</td>
-                          <td>Clean database</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-warning">70%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>3.</td>
-                          <td>Cron job running</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-primary">30%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>4.</td>
-                          <td>Fix and squish bugs</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-success">90%</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-              </div>
-              <!-- /.col -->
-            </div>
-            <!--end::Row-->
+          <div class="box-header with-border">
+
+          </div>
+
+          <div class="box-body">
+
+            <table class="table table-bordered tablaRoleUser" width="100%">
+              <thead>
+                <tr>
+                  <th>Roles</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <?php
+
+                foreach ($user_role as $key => $value) {
+                  echo '<tr> 
+                    <td>' . $value["name"] . '</td> 
+                    <td> 
+                      <button
+                        type="button" 
+                        class="btn btn-danger btnDeleteRoleUser" 
+                        role_id="' . $value["role_id"] . '" 
+                        user_id="' . $clean_user_id . '">
+                          <i class="fa fa-times"></i>
+                        </button>
+                    </td> 
+                  </tr>';
+                }
+                ?>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
 
   </section>
 
+
 </div>
+
+<script>
+  
+  /*
+  =============================================
+   - DELETE ROLE USER
+  =============================================
+  */
+
+  $(document).on('click', '.btnDeleteRoleUser', function() {
+    alert("button");
+    alert('presiona btnDeleteRoleUser')
+    var user_id = $(this).attr("user_id");
+    var role_id = $(this).attr("role_id");
+
+    swal({
+      title: '¿Esta seguro de elimar rola a usuario?',
+      text: "If you're not you can cancel!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Si, eliminar rol!'
+    }).then(function(result) {
+      if (result.value) {
+        //window.location = "index.php?route=sales&idSale=" + idSale;
+        var data = new FormData();
+        data.append("user_id", user_id);
+        data.append("role_id", role_id);
+
+        $.ajax({
+          url: "ajax/users.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function(answer) {
+            console.log("Respuesta recibida:", answer);
+            // Recargar la página después de 1 segundo
+            setTimeout(function() {
+                window.location.reload();
+            }, 1000);
+          },
+          error: function(xhr, status, error) {
+            console.log("❌ Error en la petición AJAX:");
+            console.log("Estado:", status);
+            console.log("Error:", error);
+            console.log("Respuesta del servidor:", xhr.responseText);
+          }
+        });
+      }
+
+    })
+  });
+</script>

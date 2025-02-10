@@ -662,12 +662,8 @@ function listMethods(){
 EDIT SALE BUTTON
 =============================================*/
 $(".tables").on("click", ".btnEditSale", function(){
-
 	var idSale = $(this).attr("idSale");
-
 	window.location = "index.php?route=edit-sale&idSale="+idSale;
-
-
 })
 
 /*=============================================
@@ -708,9 +704,7 @@ EVERY TIME THAT THE TABLE IS LOADED WHEN WE NAVIGATE THROUGH IT EXECUTES A FUNCT
 =============================================*/
 
 $('.salesTable').on( 'draw.dt', function(){
-
 	removeAddProductSale();
-
 })
 
 
@@ -733,7 +727,6 @@ $(".tables").on("click", ".btnDeleteSale", function(){
         confirmButtonText: 'Yes, delete sale!'
       }).then(function(result){
         if (result.value) {
-          
             window.location = "index.php?route=sales&idSale="+idSale;
         }
 
