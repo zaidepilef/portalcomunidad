@@ -24,6 +24,29 @@ class RolesModel
 		}
 	}
 
+		/*
+	=============================================
+	MOSTRAR ROLES DISPONIBLES PARA ASIGNAR
+	=============================================
+	*/
+	static public function mdlRolesDisponibles($user_id)
+	{
+		$sql = "SELECT r.id, r.name, r.description 
+		FROM roles r
+		LEFT JOIN user_roles ur 
+		ON r.id = ur.role_id 
+		AND ur.user_id = $user_id -- Cambia el ID del usuario aquí
+		WHERE ur.user_id IS NULL";
+		$stmt = (new Connection)->connect()->prepare($sql);
+		if ($stmt->execute()) {
+			return $stmt->fetchAll();
+			$stmt->close();
+			$stmt = null;
+		} else {
+			return "error";
+		}
+	}
+
 
 	/*
 	=============================================
